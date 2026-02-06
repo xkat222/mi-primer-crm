@@ -1,15 +1,23 @@
 const express = require("express");
 const router = express.Router();
+const db = require("../db");
 
-const clients = [];
-
+// Obtener clientes
 router.get("/clients", (req, res) => {
-  res.json(clients);
+  db.all("SELECT * FROM clients", [], (err, rows) => {
+    res.json(rows);
+  });
 });
 
+// Crear cliente
 router.post("/clients", (req, res) => {
-  clients.push(req.body);
-  res.json({ success: true });
+  const { name, email, phone } = req.body;
+
+  db.run(
+    "INSERT INTO clients (name, email, phone) VALUES (?, ?, ?)",
+    [name, email, phone],
+    () => res.json({ success: true })
+  );
 });
 
 module.exports = router;
