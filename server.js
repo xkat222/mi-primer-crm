@@ -1,11 +1,11 @@
 const express = require("express");
+const routes = require("./src/routes");
 
 const app = express();
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("CRM funcionando");
-});
+app.use("/", routes);
 
 app.listen(3000, () => {
-  console.log("Servidor iniciado en http://localhost:3000");
+  console.log("CRM iniciado en http://localhost:3000");
 });
